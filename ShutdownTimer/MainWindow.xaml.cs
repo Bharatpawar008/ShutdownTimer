@@ -25,6 +25,11 @@ namespace ShutdownTimer
             InitializeComponent();
         }
 
+        /// <summary>
+        /// This will invoke the shutdown operation with the time spedified in minutes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void shutdownButton_Click(object sender, RoutedEventArgs e)
         {
             Process p1 = new Process();
@@ -37,6 +42,11 @@ namespace ShutdownTimer
             cancelShutdown.IsEnabled = true;
         }
 
+        /// <summary>
+        /// This will abort the shutdown operation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelShutdown_Click(object sender, RoutedEventArgs e)
         {
             Process p1 = new Process();
@@ -49,12 +59,14 @@ namespace ShutdownTimer
             shutdownButton.IsEnabled = true;
         }
 
+        /// <summary>
+        /// We will provide this timer value to Shutdown operation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void minutesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
-
-
-            if (string.IsNullOrEmpty(minutesTextBox.Text))
+            if (string.IsNullOrEmpty(minutesTextBox.Text)) // Shutdown button will remain disabled till we get valid number. 0 is also valid to shutdown immediately
             {
                 shutdownButton.IsEnabled = false;
                 cancelShutdown.IsEnabled = false;
@@ -65,11 +77,13 @@ namespace ShutdownTimer
                 shutdownButton.IsEnabled = true;
                 cancelShutdown.IsEnabled = false;
             }
+
             int time = 0;
-            if (!int.TryParse( minutesTextBox.Text,out time))
+            if (!int.TryParse( minutesTextBox.Text,out time)) // Check if it valid number or contains any non-digit data
             {
                 MessageBox.Show(this, "Please enter only digits");
-                minutesTextBox.Text = minutesTextBox.Text.Substring(0, minutesTextBox.Text.Length - 1);
+                minutesTextBox.Text = minutesTextBox.Text.Substring(0, minutesTextBox.Text.Length - 1); // Truncate the last character
+                minutesTextBox.CaretIndex = minutesTextBox.Text.Length;
             }
         }
     }
